@@ -46,6 +46,16 @@ Route::post('/update_product/{id}',[ProductController::class,'update_product']);
 Route::get('/customer/product/{id}', [ProductController::class, 'show'])->name('customer.product.show');
 
 
+// Cart Routes
+Route::middleware(['auth'])->group(function () {
+    Route::post('/cart/add/{id}', [ProductController::class, 'addToCart'])->name('cart.add');
+    Route::get('customer/cart', [ProductController::class, 'viewCart'])->name('cart.view');
+    Route::post('/cart/remove/{id}', [ProductController::class, 'removeFromCart'])->name('cart.remove');
+    Route::post('/cart/checkout', [ProductController::class, 'checkout'])->name('cart.checkout');
+    Route::post('/cart/update/{id}', [ProductController::class, 'update'])->name('cart.update');
+
+});
+
 
 
 require __DIR__.'/auth.php';
