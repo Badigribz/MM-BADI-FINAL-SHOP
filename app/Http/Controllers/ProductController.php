@@ -142,7 +142,7 @@ class ProductController extends Controller
 
     session()->put('cart', $cart);
 
-    return redirect()->back()->with('success', 'Product added to cart!');
+    return redirect()->route('customer.index')->with('success', 'Product added to cart!');
 }
 
 public function viewCart()

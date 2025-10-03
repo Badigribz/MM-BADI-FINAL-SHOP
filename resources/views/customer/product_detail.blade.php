@@ -25,7 +25,14 @@
           <input class="form-control me-2" type="search" name="search" placeholder="Search Products">
           <button class="btn btn-outline-success" type="submit">Search</button>
       </form>
-      <i class="fas fa-shopping-cart ms-3"></i>
+      <a href="{{ route('cart.view') }}" class="text-dark text-decoration-none position-relative ms-3">
+        <i class="fas fa-shopping-cart"></i>
+        @if(session('cart'))
+            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                {{ count(session('cart')) }}
+            </span>
+        @endif
+      </a>
       <i class="fa fa-user ms-3"></i>
     </div>
   </nav>
@@ -40,7 +47,6 @@
           <div class="card-body">
             <h2 class="fw-bold">{{ $product->name }}</h2>
             <p class="text-muted">{{ $product->category->name ?? 'Uncategorized' }}</p>
-            
 
             {{-- Price --}}
             <h4 class="text-success mb-3">KES {{ number_format($product->price) }}</h4>
@@ -48,7 +54,22 @@
             {{-- Full Description --}}
             <p>{{ $product->description }}</p>
 
-            <a href="#" class="btn btn-success w-100">Add to Cart</a>
+            @php
+              $cart = session('cart', []);
+            @endphp
+
+            @if(isset($cart[$product->id]))
+              {{-- Already in cart --}}
+              <button class="btn btn-warning w-100" disabled>In Cart</button>
+            @else
+              {{-- Add to cart then redirect --}}
+              <form action="{{ route('cart.add', $product->id) }}" method="POST">
+                  @csrf
+                  <input type="hidden" name="redirect" value="index">
+                  <button type="submit" class="btn btn-success w-100">Add to Cart</button>
+              </form>
+            @endif
+
           </div>
         </div>
       </div>
