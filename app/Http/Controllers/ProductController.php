@@ -148,6 +148,14 @@ class ProductController extends Controller
 public function viewCart()
 {
     $cart = session()->get('cart', []);
+
+    // If cart is empty → redirect to products page
+    if (empty($cart)) {
+        return redirect()->route('customer.index')
+                         ->with('info', 'Your cart is empty. Keep shopping!');
+    }
+
+    // Otherwise show cart page
     return view('cart.index', compact('cart'));
 }
 

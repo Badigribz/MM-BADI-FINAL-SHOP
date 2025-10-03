@@ -25,14 +25,21 @@
           <input class="form-control me-2" type="search" name="search" placeholder="Search Products">
           <button class="btn btn-outline-success" type="submit">Search</button>
       </form>
-      <a href="{{ route('cart.view') }}" class="text-dark text-decoration-none position-relative ms-3">
-        <i class="fas fa-shopping-cart"></i>
-        @if(session('cart'))
-            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                {{ count(session('cart')) }}
-            </span>
-        @endif
-      </a>
+            @if(session('cart') && count(session('cart')) > 0)
+                {{-- Clickable when cart has items --}}
+                <a href="{{ route('cart.view') }}" class="text-dark text-decoration-none position-relative ms-3">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                        {{ count(session('cart')) }}
+                    </span>
+                </a>
+            @else
+                {{-- Disabled icon when empty --}}
+                <span class="text-muted position-relative ms-3" style="cursor: not-allowed; opacity: 0.5;">
+                    <i class="fas fa-shopping-cart"></i>
+                </span>
+            @endif
+
       <i class="fa fa-user ms-3"></i>
     </div>
   </nav>
