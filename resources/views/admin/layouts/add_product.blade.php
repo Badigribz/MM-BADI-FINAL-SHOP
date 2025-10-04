@@ -24,6 +24,14 @@
                 </ul>
             </div>
         @endif
+         <!-- toast message only implemented here added its resources in 1. a new (resources/views/components/toast.blade.php) 2. (resources/views/admin/layouts/app.blade.php in its header)
+        @if (session('success')) -->
+           <x-toast :message="session('success')" type="success" />
+        @endif
+
+        @if (session('error'))
+            <x-toast :message="session('error')" type="error" />
+        @endif
 
         <form method="POST" action="{{ url('product_add') }}" enctype="multipart/form-data" class="space-y-6">
             @csrf
