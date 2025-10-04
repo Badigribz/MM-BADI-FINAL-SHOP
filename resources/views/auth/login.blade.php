@@ -30,6 +30,14 @@
                 <input id="remember_me" type="checkbox" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500" name="remember">
                 <span class="ms-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
             </label>
+                                   <!-- borrowed this reigister button faster faster -->
+                                       <a
+                                            href="{{ route('register') }}"
+                                            class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
+                                        >
+                                           <span class="ms-2 text-sm text-gray-600">{{ __('Register') }}</span>
+                                        </a>
+                                        <!-- ends here -->
         </div>
 
         <div class="flex items-center justify-end mt-4">
@@ -44,4 +52,5 @@
             </x-primary-button>
         </div>
     </form>
+
 </x-guest-layout>

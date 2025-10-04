@@ -9,6 +9,8 @@ use App\Models\Category;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Order;
 use App\Models\OrderItem;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\OrderConfirmationMail;
 
 class ProductController extends Controller
 {
@@ -173,39 +175,6 @@ public function removeFromCart($id)
     return redirect()->route('cart.view')->with('success', 'Product removed!');
 }
 
-// public function checkout(Request $request)
-// {
-//     $cart = session()->get('cart', []);
-
-//     if (!$cart || count($cart) === 0) {
-//         return redirect()->route('cart.view')->with('error', 'Your cart is empty.');
-//     }
-
-//     foreach ($cart as $id => $item) {
-//         $product = \App\Models\Product::find($id);
-
-//         if ($product) {
-//             // Check if stock is enough
-//             if ($product->stock >= $item['quantity']) {
-//                 // Deduct stock
-//                 $product->stock -= $item['quantity'];
-//                 $product->save();
-//             } else {
-//                 return redirect()->route('cart.view')
-//                                  ->with('error', "Not enough stock for {$product->name}.");
-//             }
-//         }
-//     }
-
-//     // Clear cart after successful checkout
-//     session()->forget('cart');
-
-//     return redirect()->route('customer.index')
-//                      ->with('success', 'Checkout successful! Your order has been placed.');
-// }
-
-
-
 public function checkout(Request $request)
     {
         $cart = session()->get('cart', []);
@@ -253,6 +222,9 @@ public function checkout(Request $request)
             $product->stock -= $item['quantity'];
             $product->save();
         }
+
+        // Send order confirmation email
+        Mail::to(Auth::user()->email)->send(new OrderConfirmationMail($order));
 
         // Clear cart
         session()->forget('cart');

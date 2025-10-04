@@ -45,6 +45,7 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        return redirect(route('dashboard', absolute: false));
+        //Changed this redirection route after registration from dashboard to specific customer view(customer/index)
+        return redirect(route('customer.index', absolute: false));
     }
 }
