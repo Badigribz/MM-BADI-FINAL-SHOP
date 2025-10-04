@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\OrderController;
 
 Route::get('/', function () {
     // return view('login');
@@ -54,6 +55,11 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/cart/checkout', [ProductController::class, 'checkout'])->name('cart.checkout');
     Route::post('/cart/update/{id}', [ProductController::class, 'update'])->name('cart.update');
 
+});
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/admin/orders', [OrderController::class, 'order_show'])->name('admin.layouts.order');
+    Route::get('/admin/orders/{id}', [OrderController::class, 'show_order_detail'])->name('admin.layouts.order_detail');
 });
 
 

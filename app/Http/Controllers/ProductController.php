@@ -6,6 +6,9 @@ use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Category;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Order;
+use App\Models\OrderItem;
 
 class ProductController extends Controller
 {
@@ -170,36 +173,94 @@ public function removeFromCart($id)
     return redirect()->route('cart.view')->with('success', 'Product removed!');
 }
 
+// public function checkout(Request $request)
+// {
+//     $cart = session()->get('cart', []);
+
+//     if (!$cart || count($cart) === 0) {
+//         return redirect()->route('cart.view')->with('error', 'Your cart is empty.');
+//     }
+
+//     foreach ($cart as $id => $item) {
+//         $product = \App\Models\Product::find($id);
+
+//         if ($product) {
+//             // Check if stock is enough
+//             if ($product->stock >= $item['quantity']) {
+//                 // Deduct stock
+//                 $product->stock -= $item['quantity'];
+//                 $product->save();
+//             } else {
+//                 return redirect()->route('cart.view')
+//                                  ->with('error', "Not enough stock for {$product->name}.");
+//             }
+//         }
+//     }
+
+//     // Clear cart after successful checkout
+//     session()->forget('cart');
+
+//     return redirect()->route('customer.index')
+//                      ->with('success', 'Checkout successful! Your order has been placed.');
+// }
+
+
+
 public function checkout(Request $request)
-{
-    $cart = session()->get('cart', []);
+    {
+        $cart = session()->get('cart', []);
 
-    if (!$cart || count($cart) === 0) {
-        return redirect()->route('cart.view')->with('error', 'Your cart is empty.');
-    }
-
-    foreach ($cart as $id => $item) {
-        $product = \App\Models\Product::find($id);
-
-        if ($product) {
-            // Check if stock is enough
-            if ($product->stock >= $item['quantity']) {
-                // Deduct stock
-                $product->stock -= $item['quantity'];
-                $product->save();
-            } else {
-                return redirect()->route('cart.view')
-                                 ->with('error', "Not enough stock for {$product->name}.");
-            }
+        if (!$cart || count($cart) === 0) {
+            return redirect()->route('customer.index')->with('error', 'Your cart is empty.');
         }
-    }
 
-    // Clear cart after successful checkout
-    session()->forget('cart');
+        $totalAmount = 0;
 
-    return redirect()->route('customer.index')
-                     ->with('success', 'Checkout successful! Your order has been placed.');
-}
+        // Validate stock + calculate total
+        foreach ($cart as $id => $item) {
+            $product = \App\Models\Product::find($id);
+
+            if (!$product) {
+                return redirect()->route('cart.index')->with('error', "Product not found.");
+            }
+
+            if ($product->stock < $item['quantity']) {
+                return redirect()->route('cart.index')->with('error', "Not enough stock for {$product->name}.");
+            }
+
+            $totalAmount += $item['price'] * $item['quantity'];
+        }
+
+        // Create the order
+        $order = Order::create([
+            'user_id' => Auth::id(),
+            'total' => $totalAmount,
+        ]);
+
+        // Create order items + update stock
+        foreach ($cart as $id => $item) {
+            $product = \App\Models\Product::find($id);
+
+            OrderItem::create([
+                'order_id' => $order->id,
+                'product_id' => $id,
+                'quantity' => $item['quantity'],
+                'unit_price' => $item['price'],
+                'line_total' => $item['price'] * $item['quantity'],
+            ]);
+
+            // Deduct stock
+            $product->stock -= $item['quantity'];
+            $product->save();
+        }
+
+        // Clear cart
+        session()->forget('cart');
+
+        return redirect()->route('customer.index')
+                        ->with('success', 'Checkout successful! Your order has been placed.');
+        }
+
 
 
 public function update(Request $request, $id)
