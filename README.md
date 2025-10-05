@@ -6,7 +6,7 @@ full-stack Laravel eCommerce demo built for the Red Giant Laravel Full Stack Int
 
 ### 1️⃣ Clone this repository
 ```bash
-git clone https://github.com/YOUR_USERNAME/minishop-lite.git
+git clone https://github.com/moha-matano3/Mini_Shop_Lite.git
 cd minishop-lite
 ```
 ### 2️⃣ run the following to Install
