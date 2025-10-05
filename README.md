@@ -19,7 +19,7 @@ cd Mini_Shop_Lite
 composer install
 npm install
 ```
-### 3️⃣ run the following to create a .env file
+### 3️⃣ run the following to create a .env file and link to the database accordingly
 ```bash
 cp .env.example .env
 ```
