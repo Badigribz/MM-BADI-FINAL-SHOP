@@ -23,15 +23,19 @@ npm install
 ```bash
 cp .env.example .env
 ```
-### 1️⃣ Generate Application key
+### 4️⃣ Generate Application key
 ```bash
 php artisan key:generate
 ```
-### 1️⃣Run Migrations and Seed the Database
+### 5️⃣Run Migrations and Seed the Database
 ```bash
 php artisan migrate --seed
 ```
-### 1️⃣ To start the project run these on different terminals
+### 6️⃣ To start the project run this on terminal 1
 ```bash
-php artisan serve && npm run dev
+php artisan serve
+```
+### 7️⃣ Then run this on terminal 2
+```bash
+npm run dev
 ```
