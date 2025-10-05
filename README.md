@@ -1,15 +1,20 @@
-full-stack Laravel eCommerce demo built for the Red Giant Laravel Full Stack Intern Assessment.
+# 🛍️ MiniShop Lite  
+*A full-stack Laravel eCommerce demo built for the **Red Giant Laravel Full Stack Intern Assessment.***
 
 ---
 
-## How to Run This Project
+## 🚀 How to Run This Project
+
+Follow these steps to set up and run the project locally.
+
+---
 
 ### 1️⃣ Clone this repository
 ```bash
 git clone https://github.com/moha-matano3/Mini_Shop_Lite.git
 cd minishop-lite
 ```
-### 2️⃣ run the following to Install
+### 2️⃣ run the following to Install dependencies
 ```bash
 composer install
 npm install
@@ -18,11 +23,11 @@ npm install
 ```bash
 cp .env.example .env
 ```
-### 1️⃣ run this
+### 1️⃣ Generate Application key
 ```bash
 php artisan key:generate
 ```
-### 1️⃣ run this to create database and seed users
+### 1️⃣Run Migrations and Seed the Database
 ```bash
 php artisan migrate --seed
 ```
