@@ -2,7 +2,7 @@ full-stack Laravel eCommerce demo built for the Red Giant Laravel Full Stack Int
 
 ---
 
-## 🚀 How to Run This Project
+## How to Run This Project
 
 ### 1️⃣ Clone this repository
 ```bash
