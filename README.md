@@ -12,7 +12,7 @@ Follow these steps to set up and run the project locally.
 ### 1️⃣ Clone this repository
 ```bash
 git clone https://github.com/moha-matano3/Mini_Shop_Lite.git
-cd minishop-lite
+cd Mini_Shop_Lite
 ```
 ### 2️⃣ run the following to Install dependencies
 ```bash
